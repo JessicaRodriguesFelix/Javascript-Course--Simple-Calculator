@@ -189,7 +189,7 @@ class CalcController {
                 let newValue = this.getLastOperation().toString() + value.toString();
 
                 // empurra o valor atual para meu array
-                this.setLastOperation(parseFloat(newValue));
+                this.setLastOperation(newValue);
 
                 //atualizar display
 
@@ -209,6 +209,8 @@ class CalcController {
     addDot(){
 
         let lastOperation = this.getLastOperation();
+
+        if (typeof lastOperation === 'string' && lastOperation.split('').indexOf('.')> -1) return;
 
         if (this.isOperator(lastOperation) || !lastOperation){
 
