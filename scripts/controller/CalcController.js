@@ -61,18 +61,18 @@ class CalcController {
 
         document.querySelectorAll('.btn-ac').forEach(btn => {
 
-            btn.addEventListener('dblclick', e=> {
+            btn.addEventListener('dblclick', e => {
                 this.toggleAudio();
             })
         });
     }
 
-    toggleAudio(){
+    toggleAudio() {
 
         this._audioOnOff = !this._audioOnOff;
     }
 
-    playAudio(){
+    playAudio() {
         if (this._audioOnOff) {
 
             this._audio.currentTime = 0;
@@ -192,7 +192,14 @@ class CalcController {
 
     getResult() {
 
-        return eval(this._operation.join(""));
+        try {
+            return eval(this._operation.join(""));
+        } catch (e) {
+
+            setTimeout(() => {
+                this.setError();
+            }, 1);
+        }
     }
 
     calc() {
@@ -336,7 +343,7 @@ class CalcController {
     execBtn(value) {
 
         this.playAudio();
-        
+
         switch (value) {
 
             case 'ac':
@@ -443,6 +450,11 @@ class CalcController {
         return this._displayCalcEl.innerHTML;
     }
     set displayCalc(value) {
+
+        if (value.toString().length > 10) {
+            this.setError();
+            return false;
+        }
         this._displayCalcEl.innerHTML = value;
     }
     get currentDate() {
